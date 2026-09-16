@@ -45,6 +45,33 @@ public class Tile {
 		return "[" + letter + "]";
 	}
 
+	/**
+	 * Generates all unique permutations of the tiles in the given list.
+	 * 
+	 * This method uses a randomization approach to generate permutations. It
+	 * randomly shuffles the input list and checks if the resulting permutation
+	 * is unique (not already in the result set). This process continues until
+	 * all n! permutations have been generated, where n is the size of the input list.
+	 * 
+	 * <p><b>Algorithm:</b>
+	 * <ol>
+	 * <li>Randomize the input list by removing random elements and building a new list</li>
+	 * <li>Check if the generated permutation already exists in the result set</li>
+	 * <li>If unique, add it to the result set</li>
+	 * <li>Repeat until the number of permutations equals n! (factorial of n)</li>
+	 * </ol>
+	 * </p>
+	 * 
+	 * <p><b>Note:</b> This method modifies the input list. If the original list
+	 * needs to be preserved, a copy should be passed to this method instead.</p>
+	 * 
+	 * @param tileList an {@code ArrayList} of {@code Tile} objects to permute
+	 * @return a {@code HashSet} containing all unique permutations of the input tiles
+	 * @throws ClassCastException if tileList contains elements that are not {@code Tile} objects
+	 * @throws NullPointerException if tileList is null
+	 * 
+	 * @see #factorial(int)
+	 */
 	public static HashSet<ArrayList<Tile>> permutations(ArrayList<Tile> tileList) {
 		// 1. Randomize the list by removing random elements and adding to a new list
 		// <randList> until <tileList> is empty.
