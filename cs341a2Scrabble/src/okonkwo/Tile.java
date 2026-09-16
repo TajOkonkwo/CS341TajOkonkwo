@@ -11,21 +11,67 @@ import java.util.HashSet;
  */
 public class Tile {
 
+	// Data Members
 	/**
 	 * The letter on the tile.
 	 */
 	private char letter;
 
+	// Constructors
 	/**
-	 * Constructs a tile with the given letter.
+	 * Constructs a tile with the given letter. The letter will be upper-case
 	 * 
 	 * @param letter the letter on the tile
 	 */
 	public Tile(char letter) {
 		super();
-		this.letter = letter;
+		
+		if (!(('a' <= letter && letter <= 'z') || ('A' <= letter && letter <= 'Z')))
+			throw new NotALetterException("'" + letter + "' was entered. Only letters allowed!");
+		
+		this.letter = Character.toUpperCase(letter);
+	}
+	
+	// Exceptions
+	/**
+	 * An exception that is thrown when a non-letter character is used to create a Tile.
+	 */
+	public class NotALetterException extends RuntimeException {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public NotALetterException() {
+			super();
+			// TODO Auto-generated constructor stub
+		}
+
+		public NotALetterException(String message, Throwable cause, boolean enableSuppression,
+				boolean writableStackTrace) {
+			super(message, cause, enableSuppression, writableStackTrace);
+			// TODO Auto-generated constructor stub
+		}
+
+		public NotALetterException(String message, Throwable cause) {
+			super(message, cause);
+			// TODO Auto-generated constructor stub
+		}
+
+		public NotALetterException(String message) {
+			super(message);
+			// TODO Auto-generated constructor stub
+		}
+
+		public NotALetterException(Throwable cause) {
+			super(cause);
+			// TODO Auto-generated constructor stub
+		}
+		
 	}
 
+	// Methods
 	/**
 	 * Returns the letter on the tile.
 	 * 
@@ -42,7 +88,7 @@ public class Tile {
 
 	@Override
 	public String toString() {
-		return "[" + letter + "]";
+		return "" + letter;
 	}
 
 	/**
@@ -76,7 +122,7 @@ public class Tile {
 		// 1. Randomize the list by removing random elements and adding to a new list
 		// <randList> until <tileList> is empty.
 		HashSet<ArrayList<Tile>> perms = new HashSet<>();
-		int size = tileList.size();
+		int size = numUniqueTiles(tileList); // Number of unique elements in the list
 		
 		ArrayList<Tile> randList = new ArrayList<>();
 		while (true) {
@@ -85,15 +131,32 @@ public class Tile {
 
 			// 2. Check <randList> against members of the return set <perms>. If an
 			// identical permutation already exists, reset <tileList> and redo Step 1.
-			if (perms.contains(randList))
+			tileList = (ArrayList<Tile>) randList.clone();
+			if (perms.contains(randList)) {
+				// Old permutation
+				randList = new ArrayList<>();
 				continue;
-			else {
-				perms.add(tileList);
+			} else {
+				// New permutation
+				perms.add(randList);
+				randList = new ArrayList<>();
+				
 				// 3. Once the size of <perms> reaches <size> factorial, return <perms>
 				if (perms.size() == factorial(size))
 					return perms;
 			}
 		}
+	}
+	
+	/**
+	 * Returns the number of unique elements in the given list of tiles.
+	 * 
+	 * @param tileList an {@code ArrayList} of {@code Tile} objects
+	 * @return the number of unique elements in the list
+	 */
+	public static int numUniqueTiles(ArrayList<Tile> tileList) {
+		HashSet<Tile> uniqueElements = new HashSet<>(tileList);
+		return uniqueElements.size();
 	}
 
 	/**
