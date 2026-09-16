@@ -1,7 +1,6 @@
 package okonkwo;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /**
  * A class that represents a tile with a letter on it.
@@ -97,31 +96,37 @@ public class Tile {
 	 * This method uses a randomization approach to generate permutations. It
 	 * randomly shuffles the input list and checks if the resulting permutation
 	 * is unique (not already in the result set). This process continues until
-	 * all n! permutations have been generated, where n is the size of the input list.
+	 * all n! permutations have been generated, where n is the number of <b>unique</b> 
+	 * tiles in the input list.
 	 * 
 	 * <p><b>Algorithm:</b>
 	 * <ol>
+	 * <li>Count the number of unique tiles in the input list</li>
 	 * <li>Randomize the input list by removing random elements and building a new list</li>
 	 * <li>Check if the generated permutation already exists in the result set</li>
 	 * <li>If unique, add it to the result set</li>
-	 * <li>Repeat until the number of permutations equals n! (factorial of n)</li>
+	 * <li>Repeat until the number of permutations equals n! (factorial of the number of unique tiles)</li>
 	 * </ol>
 	 * </p>
 	 * 
 	 * <p><b>Note:</b> This method modifies the input list. If the original list
-	 * needs to be preserved, a copy should be passed to this method instead.</p>
+	 * needs to be preserved, a copy should be passed to this method instead.
+	 * If the list contains duplicate tiles, the number of permutations will be 
+	 * k!, where k is the number of unique tiles (not the total size of the list).</p>
 	 * 
 	 * @param tileList an {@code ArrayList} of {@code Tile} objects to permute
-	 * @return a {@code HashSet} containing all unique permutations of the input tiles
+	 * @return a {@code ArrayList} containing all unique permutations of the input tiles,
+	 *         where the count equals the factorial of the number of unique tiles
 	 * @throws ClassCastException if tileList contains elements that are not {@code Tile} objects
 	 * @throws NullPointerException if tileList is null
 	 * 
 	 * @see #factorial(int)
+	 * @see #numUniqueTiles(ArrayList)
 	 */
-	public static HashSet<ArrayList<Tile>> permutations(ArrayList<Tile> tileList) {
+	public static ArrayList<ArrayList<Tile>> permutations(ArrayList<Tile> tileList) {
 		// 1. Randomize the list by removing random elements and adding to a new list
 		// <randList> until <tileList> is empty.
-		HashSet<ArrayList<Tile>> perms = new HashSet<>();
+		ArrayList<ArrayList<Tile>> perms = new ArrayList<>();
 		int size = numUniqueTiles(tileList); // Number of unique elements in the list
 		
 		ArrayList<Tile> randList = new ArrayList<>();
@@ -155,7 +160,7 @@ public class Tile {
 	 * @return the number of unique elements in the list
 	 */
 	public static int numUniqueTiles(ArrayList<Tile> tileList) {
-		HashSet<Tile> uniqueElements = new HashSet<>(tileList);
+		ArrayList<Tile> uniqueElements = new ArrayList<>(tileList);
 		return uniqueElements.size();
 	}
 
