@@ -1,7 +1,7 @@
 package tester;
 
 import java.util.ArrayList;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import okonkwo.Tile;
 
@@ -16,9 +16,11 @@ public class TesterMain {
 		// Test Tile class
 		ArrayList<Tile> myTileList = new ArrayList<>();
 		
+		// Test if two tiles are the same
+		
 		myTileList.add(new Tile('A'));
 		myTileList.add(new Tile('A'));
-		//myTileList.add(new Tile('C'));
+		myTileList.add(new Tile('C'));
 		//myTileList.add(new Tile('D'));
 		//myTileList.add(new Tile('E'));
 		int size = myTileList.size();

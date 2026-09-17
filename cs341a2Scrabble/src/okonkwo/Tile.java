@@ -1,6 +1,9 @@
 package okonkwo;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A class that represents a tile with a letter on it.
@@ -79,15 +82,33 @@ public class Tile {
 	public char getLetter() {
 		return letter;
 	}
-
+	
 	@Override
 	public boolean equals(Object o2) {
-		return (letter == ((Tile) o2).letter);
+		if (this == o2)
+			return true;
+		if (o2 == null)
+			return false;
+		if (getClass() != o2.getClass())
+			return false;
+		Tile other = (Tile) o2;
+		return this.letter == other.letter;
 	}
+
 
 	@Override
 	public String toString() {
 		return "" + letter;
+	}
+
+	/**
+	 * Overrides {@code Object.hashCode()} by only checking letter equivalence
+	 */
+	@Override
+	public int hashCode() {
+		// Must be consistent with equals so HashSet and other hash-based
+		// collections can correctly detect Tiles with the same letter.
+		return Character.hashCode(letter);
 	}
 
 	/**
@@ -101,11 +122,11 @@ public class Tile {
 	 * 
 	 * <p><b>Algorithm:</b>
 	 * <ol>
-	 * <li>Count the number of unique tiles in the input list</li>
+	 * <li>Count the number of tiles in the input list</li>
 	 * <li>Randomize the input list by removing random elements and building a new list</li>
 	 * <li>Check if the generated permutation already exists in the result set</li>
 	 * <li>If unique, add it to the result set</li>
-	 * <li>Repeat until the number of permutations equals n! (factorial of the number of unique tiles)</li>
+	 * <li>Repeat until the number of permutations equals n! (factorial of the number of tiles)</li>
 	 * </ol>
 	 * </p>
 	 * 
@@ -127,29 +148,27 @@ public class Tile {
 		// 1. Randomize the list by removing random elements and adding to a new list
 		// <randList> until <tileList> is empty.
 		ArrayList<ArrayList<Tile>> perms = new ArrayList<>();
-		int size = numUniqueTiles(tileList); // Number of unique elements in the list
+		int size = tileList.size();
 		
-		ArrayList<Tile> randList = new ArrayList<>();
+		ArrayList<Tile> randList = (ArrayList<Tile>) tileList.clone();
 		while (true) {
-			for (int i = 0; i < size; i++)
-				randList.add(tileList.remove((int) (Math.random() * tileList.size())));
-
+			Collections.shuffle(randList);
+			
 			// 2. Check <randList> against members of the return set <perms>. If an
 			// identical permutation already exists, reset <tileList> and redo Step 1.
 			tileList = (ArrayList<Tile>) randList.clone();
 			if (perms.contains(randList)) {
 				// Old permutation
 				randList = new ArrayList<>();
-				continue;
 			} else {
 				// New permutation
 				perms.add(randList);
 				randList = new ArrayList<>();
-				
-				// 3. Once the size of <perms> reaches <size> factorial, return <perms>
-				if (perms.size() == factorial(size))
-					return perms;
 			}
+			
+			// 3. Once the size of <perms> reaches <size> factorial, return <perms>
+			if (perms.size() == factorial(size))
+				return perms;
 		}
 	}
 	
@@ -160,7 +179,7 @@ public class Tile {
 	 * @return the number of unique elements in the list
 	 */
 	public static int numUniqueTiles(ArrayList<Tile> tileList) {
-		ArrayList<Tile> uniqueElements = new ArrayList<>(tileList);
+		HashSet<Tile> uniqueElements = new HashSet<Tile>(tileList);
 		return uniqueElements.size();
 	}
 
