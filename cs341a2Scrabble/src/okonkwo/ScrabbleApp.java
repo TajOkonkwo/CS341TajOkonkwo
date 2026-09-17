@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 
 public class ScrabbleApp {
 
@@ -106,6 +107,10 @@ public class ScrabbleApp {
 		});
 		btnShuffle.setBounds(166, 125, 88, 22);
 		frame.getContentPane().add(btnShuffle);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 0, 2, 2);
+		frame.getContentPane().add(scrollPane);
 		txtOut.setWrapStyleWord(true);
 		
 		txtOut.setBounds(38, 164, 360, 77);
