@@ -25,7 +25,7 @@ public class TesterMain {
 		//myTileList.add(new Tile('E'));
 		int size = myTileList.size();
 		
-		ArrayList<ArrayList<Tile>> perms = Tile.permutations(myTileList);
+		ArrayList<ArrayList<Tile>> perms = Tile.uniquePermutations(myTileList);
 		System.out.println("Permutations: " + perms);
 		System.out.println("Size of list: " + size);
 		System.out.println("Size of perms: " + perms.size());

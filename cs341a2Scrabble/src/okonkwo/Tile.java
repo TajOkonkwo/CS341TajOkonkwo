@@ -27,16 +27,17 @@ public class Tile {
 	 */
 	public Tile(char letter) {
 		super();
-		
+
 		if (!(('a' <= letter && letter <= 'z') || ('A' <= letter && letter <= 'Z')))
 			throw new NotALetterException("'" + letter + "' was entered. Only letters allowed!");
-		
+
 		this.letter = Character.toUpperCase(letter);
 	}
-	
+
 	// Exceptions
 	/**
-	 * An exception that is thrown when a non-letter character is used to create a Tile.
+	 * An exception that is thrown when a non-letter character is used to create a
+	 * Tile.
 	 */
 	public class NotALetterException extends RuntimeException {
 
@@ -70,7 +71,7 @@ public class Tile {
 			super(cause);
 			// TODO Auto-generated constructor stub
 		}
-		
+
 	}
 
 	// Methods
@@ -82,7 +83,7 @@ public class Tile {
 	public char getLetter() {
 		return letter;
 	}
-	
+
 	@Override
 	public boolean equals(Object o2) {
 		if (this == o2)
@@ -94,7 +95,6 @@ public class Tile {
 		Tile other = (Tile) o2;
 		return this.letter == other.letter;
 	}
-
 
 	@Override
 	public String toString() {
@@ -112,66 +112,47 @@ public class Tile {
 	}
 
 	/**
-	 * Generates all unique permutations of the tiles in the given list.
+	 * Returns a list of all unique permutations of the given list of tiles.
 	 * 
-	 * This method uses a randomization approach to generate permutations. It
-	 * randomly shuffles the input list and checks if the resulting permutation
-	 * is unique (not already in the result set). This process continues until
-	 * all n! permutations have been generated, where n is the number of <b>unique</b> 
-	 * tiles in the input list.
-	 * 
-	 * <p><b>Algorithm:</b>
-	 * <ol>
-	 * <li>Count the number of tiles in the input list</li>
-	 * <li>Randomize the input list by removing random elements and building a new list</li>
-	 * <li>Check if the generated permutation already exists in the result set</li>
-	 * <li>If unique, add it to the result set</li>
-	 * <li>Repeat until the number of permutations equals n! (factorial of the number of tiles)</li>
-	 * </ol>
-	 * </p>
-	 * 
-	 * <p><b>Note:</b> This method modifies the input list. If the original list
-	 * needs to be preserved, a copy should be passed to this method instead.
-	 * If the list contains duplicate tiles, the number of permutations will be 
-	 * k!, where k is the number of unique tiles (not the total size of the list).</p>
-	 * 
-	 * @param tileList an {@code ArrayList} of {@code Tile} objects to permute
-	 * @return a {@code ArrayList} containing all unique permutations of the input tiles,
-	 *         where the count equals the factorial of the number of unique tiles
-	 * @throws ClassCastException if tileList contains elements that are not {@code Tile} objects
-	 * @throws NullPointerException if tileList is null
-	 * 
-	 * @see #factorial(int)
-	 * @see #numUniqueTiles(ArrayList)
+	 * @param tiles an {@code ArrayList} of {@code Tile} objects
+	 * @return an {@code ArrayList} of {@code ArrayList<Tile>} objects, each
+	 *         representing a unique permutation of the input tiles
 	 */
-	public static ArrayList<ArrayList<Tile>> permutations(ArrayList<Tile> tileList) {
-		// 1. Randomize the list by removing random elements and adding to a new list
-		// <randList> until <tileList> is empty.
-		ArrayList<ArrayList<Tile>> perms = new ArrayList<>();
-		int size = tileList.size();
-		
-		ArrayList<Tile> randList = (ArrayList<Tile>) tileList.clone();
-		while (true) {
-			Collections.shuffle(randList);
-			
-			// 2. Check <randList> against members of the return set <perms>. If an
-			// identical permutation already exists, reset <tileList> and redo Step 1.
-			tileList = (ArrayList<Tile>) randList.clone();
-			if (perms.contains(randList)) {
-				// Old permutation
-				randList = new ArrayList<>();
-			} else {
-				// New permutation
-				perms.add(randList);
-				randList = new ArrayList<>();
-			}
-			
-			// 3. Once the size of <perms> reaches <size> factorial, return <perms>
-			if (perms.size() == factorial(size))
-				return perms;
+	public static ArrayList<ArrayList<Tile>> uniquePermutations(ArrayList<Tile> tiles) {
+		int n = tiles.size();
+		// TreeMap gives deterministic sorted order of keys (letters)
+		java.util.Map<Character, Integer> counts = new java.util.TreeMap<>();
+		for (Tile t : tiles) {
+			counts.put(t.getLetter(), counts.getOrDefault(t.getLetter(), 0) + 1);
+		}
+
+		ArrayList<ArrayList<Tile>> result = new ArrayList<>();
+		ArrayList<Tile> current = new ArrayList<>(n);
+		backtrackPermutations(counts, n, current, result);
+		return result;
+	}
+
+	private static void backtrackPermutations(java.util.Map<Character, Integer> counts, int targetLength,
+			ArrayList<Tile> current, ArrayList<ArrayList<Tile>> result) {
+		if (current.size() == targetLength) {
+			// copy of current permutation; create new Tile instances
+			result.add(new ArrayList<>(current));
+			return;
+		}
+
+		for (java.util.Map.Entry<Character, Integer> e : counts.entrySet()) {
+			char ch = e.getKey();
+			int c = e.getValue();
+			if (c == 0)
+				continue;
+			counts.put(ch, c - 1);
+			current.add(new Tile(ch)); // safe: Tile constructor accepts letters
+			backtrackPermutations(counts, targetLength, current, result);
+			current.remove(current.size() - 1);
+			counts.put(ch, c); // restore
 		}
 	}
-	
+
 	/**
 	 * Returns the number of unique elements in the given list of tiles.
 	 * 
@@ -181,18 +162,5 @@ public class Tile {
 	public static int numUniqueTiles(ArrayList<Tile> tileList) {
 		HashSet<Tile> uniqueElements = new HashSet<Tile>(tileList);
 		return uniqueElements.size();
-	}
-
-	/**
-	 * Returns the factorial of a given number.
-	 * 
-	 * @param x the number to calculate the factorial of
-	 * @return the factorial of x
-	 */
-	public static int factorial(int x) {
-		if (x == 0)
-			return 1;
-		else
-			return x * factorial(x - 1);
 	}
 }
