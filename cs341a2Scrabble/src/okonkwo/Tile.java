@@ -41,7 +41,7 @@ public class Tile {
 	 * An exception that is thrown when a non-letter character is used to create a
 	 * Tile.
 	 */
-	public class NotALetterException extends RuntimeException {
+	public static class NotALetterException extends RuntimeException {
 
 		/**
 		 * 
