@@ -1,0 +1,114 @@
+package okonkwo;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JTextPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.HashSet;
+import javax.swing.JTextArea;
+
+public class ScrabbleApp {
+
+	private JFrame frame;
+	private JTextField textIn;
+	private JTextArea txtOut = new JTextArea();
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ScrabbleApp window = new ScrabbleApp();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public ScrabbleApp() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JLabel lblTitle = new JLabel("Scrabble!");
+		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		lblTitle.setBounds(152, 11, 131, 37);
+		frame.getContentPane().add(lblTitle);
+		
+		JLabel lblEnter = new JLabel("Enter up to 7 letters");
+		lblEnter.setBounds(76, 80, 103, 24);
+		frame.getContentPane().add(lblEnter);
+		
+		textIn = new JTextField();
+		textIn.setBounds(250, 82, 96, 20);
+		frame.getContentPane().add(textIn);
+		textIn.setColumns(10);
+		
+		JButton btnShuffle = new JButton("Shuffle!");
+		btnShuffle.addMouseListener(new MouseAdapter() {
+			@Override
+			
+			/**
+			 * When the shuffle button is clicked, every permutation (shuffling) of the letters entered is generated and displayed in the output text pane.
+			 */
+			public void mouseClicked(MouseEvent e) {
+				// 1. Get the text from the input field
+				String input = textIn.getText();
+				
+				// 2. Create a list of Tile objects from the input string
+				ArrayList<Tile> tileList = new ArrayList<>();
+				
+				// 3. Add each character in the input string as a Tile to the list
+				for (char c : input.toCharArray()) {
+					tileList.add(new Tile(c));
+				}
+				
+				// *Check if the input is valid (up to 7 letters)
+				if (tileList.size() > 7) {
+					txtOut.setText("Please enter up to 7 letters only.");
+				}
+				
+				// 4. Get the unique permutations of the tile list
+				HashSet<ArrayList<Tile>> uniquePerms = Tile.uniquePermutations(tileList);
+				
+				// 5. Build a string of the unique permutations to display
+				StringBuilder output = new StringBuilder();
+				for (ArrayList<Tile> perm : uniquePerms) {
+					for (Tile tile : perm) {
+						output.append(tile.getLetter());
+					}
+					output.append("\n");
+				}
+				txtOut.setText(output.toString());
+			}
+		});
+		btnShuffle.setBounds(166, 125, 88, 22);
+		frame.getContentPane().add(btnShuffle);
+		txtOut.setWrapStyleWord(true);
+		
+		txtOut.setBounds(38, 164, 360, 77);
+		frame.getContentPane().add(txtOut);
+	}
+}
