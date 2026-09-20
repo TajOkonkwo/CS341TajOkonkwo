@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Main {
 
@@ -17,7 +19,10 @@ public class Main {
 	private JTextField inPrice;
 	private JTextField inQuantity;
 	private JLabel lblTitle;
+	private JTextPane outItems = new JTextPane();
 	private JTextField outTotal;
+	
+	private SalesSlip slip = new SalesSlip();
 
 	/**
 	 * Launch the application.
@@ -79,6 +84,33 @@ public class Main {
 		frame.getContentPane().add(inQuantity);
 		
 		JButton btnAdd = new JButton("Add Item");
+		btnAdd.addMouseListener(new MouseAdapter() {
+			@Override
+			/**
+			 * Add the new item to the slip
+			 */
+			public void mouseClicked(MouseEvent e) {
+				// 1. Extract sales item information
+				String name = inItem.getText();
+				float price = Float.parseFloat(inPrice.getText());
+				int quantity = Integer.parseInt(inQuantity.getText());
+				
+				// 2. Build new sales item
+				SalesItem item = new SalesItem(name, price, quantity);
+				
+				// 3. Add item to slip
+				slip.addItem(item);
+				
+				// 4. Show all items
+				outItems.setText(slip.toString());
+				
+				// 5. Calculate total sales
+				Dollars totalSales = slip.totalSales();
+				
+				// 6. Display total sales
+				outTotal.setText(totalSales + "");
+			}
+		});
 		btnAdd.setBounds(182, 143, 88, 22);
 		frame.getContentPane().add(btnAdd);
 		
@@ -91,7 +123,6 @@ public class Main {
 		scrollPane.setBounds(68, 166, 298, 60);
 		frame.getContentPane().add(scrollPane);
 		
-		JTextPane outItems = new JTextPane();
 		outItems.setEditable(false);
 		scrollPane.setViewportView(outItems);
 		

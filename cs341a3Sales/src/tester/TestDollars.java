@@ -1,0 +1,53 @@
+package tester;
+
+import java.util.ArrayList;
+
+import okonkwo.*;
+
+public class TestDollars {
+
+	public static void main(String[] args) {
+		// TEST 1: round() method
+		System.out.println("TEST 1: round() method");
+		// 1. Create array list floats
+		ArrayList<Float> floats = new ArrayList<>();
+		
+		// 2. Populate with random values
+		for (int i = 0; i < 20; i++) {
+			floats.add((float) Math.random() * 200 - 100);
+		}
+		
+		// 3. Print original values
+		System.out.println("Original values");
+		for (Float f: floats)
+			System.out.print(f + " \t");
+		
+		// 4. Print values of float rounded to various decimal places
+		for (int dec = 0; dec <= 5; dec++) {
+			System.out.println("\n" + dec + " decimals:");
+			for (Float f: floats)
+				System.out.print(Dollars.round(f, dec) + " \t");
+		}
+		
+		// TEST 2: Dollars instances
+		System.out.println("\nTEST 2: round() method");
+		
+		// 1. Create array list of Dollars based on float values
+		ArrayList<Dollars> dollars = new ArrayList<>();
+		ArrayList<Float> floats2 = new ArrayList<>();
+		
+		// 2. Populate with random values
+		for (int i = 0; i < 20; i++) {
+			floats2.add((float) (Math.random() * 200 - 100));
+			dollars.add(new Dollars(floats2.getLast()));
+		}
+		
+		// 3. Print values
+		for (int i = 0; i < dollars.size(); i++) {
+			Dollars d = dollars.get(i);
+			Float dFloat = floats2.get(i);
+			System.out.println("Float value: " + dFloat + " | Dollar value: " + d);
+		}
+	}
+	
+}

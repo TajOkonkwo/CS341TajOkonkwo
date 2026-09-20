@@ -12,33 +12,40 @@ public class SalesItem {
 	/**The item name */
 	private String name;
 	
-	/**The price per item ($) */
-	private float price; // Float used instead of double because precision is not as relevant
+	/**The price per item ($) (rounded to 2 decimals)*/
+	private Dollars price; // Float used instead of double because precision is not as relevant
 	
 	/**The item quantity */
 	private int quantity;
 	
 	// Constructors
 	/**
-	 * Explicit constructor | Create a sales item with a name, price, and quantity
+	 * Explicit constructor | Create a {@code SalesItem} with a name, price, and quantity
 	 * @param name
-	 * @param price
+	 * @param price (rounded to 2 decimals)
 	 * @param quantity
 	 */
-	public SalesItem(String name, float price, int quantity) {
+	public SalesItem(String name, Dollars price, int quantity) {
 		super();
 		this.name = name;
 		this.price = price;
 		this.quantity = quantity;
 	}
 	
+	public SalesItem(String name, float price, int quantity) {
+		super();
+		this.name = name;
+		this.price = new Dollars(price);
+		this.quantity = quantity;
+	}
+	
 	// Basic Methods
 	/**
-	 * The sales item as a string
+	 * The {@code SalesItem} as a string
 	 */
 	@Override
 	public String toString() {
-		return name + "\t$" + price + "\t" + quantity;
+		return name + " \t" + price + " \t" + quantity;
 	}
 
 	/**
@@ -61,15 +68,15 @@ public class SalesItem {
 	 * Get price per item in dollars
 	 * @return price per item in dollars
 	 */
-	public float getPrice() {
+	public Dollars getPrice() {
 		return price;
 	}
 
 	/**
-	 * Set price per item in dollars
+	 * Set price per item in dollars (rounded to 2 decimals)
 	 * @param price
 	 */
-	public void setPrice(float price) {
+	public void setPrice(Dollars price) {
 		this.price = price;
 	}
 
