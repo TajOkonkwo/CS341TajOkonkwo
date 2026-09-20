@@ -22,7 +22,7 @@ public class SalesItem {
 	/**
 	 * Explicit constructor | Create a {@code SalesItem} with a name, price, and quantity
 	 * @param name
-	 * @param price (rounded to 2 decimals)
+	 * @param price ({@code float}) (rounded to 2 decimals)
 	 * @param quantity
 	 */
 	public SalesItem(String name, Dollars price, int quantity) {
@@ -32,6 +32,12 @@ public class SalesItem {
 		this.quantity = quantity;
 	}
 	
+	/**
+	 * Explicit constructor | Create a {@code SalesItem} with a name, price, and quantity
+	 * @param name
+	 * @param price ({@code Dollars}) (rounded to 2 decimals)
+	 * @param quantity
+	 */
 	public SalesItem(String name, float price, int quantity) {
 		super();
 		this.name = name;
