@@ -85,7 +85,7 @@ public class BSTree<B extends Comparable<B>> {
 	/**
 	 * Thrown when a tree needs to access an element, but the tree is empty
 	 */
-	private static class EmptyTreeException extends RuntimeException {
+	public static class EmptyTreeException extends RuntimeException {
 
 		public EmptyTreeException() {
 			new EmptyTreeException("");
@@ -100,7 +100,7 @@ public class BSTree<B extends Comparable<B>> {
 	/**
 	 * Thrown when trying to add a node of equal value to a pre-existing node
 	 */
-	private static class DuplicateNodeException extends RuntimeException {
+	public static class DuplicateNodeException extends RuntimeException {
 
 		public DuplicateNodeException() {
 			new DuplicateNodeException("");
@@ -126,6 +126,8 @@ public class BSTree<B extends Comparable<B>> {
 	 * Add a node to the tree
 	 * 
 	 * @param value - the value of the added node
+	 * @throws DuplicateNodeException if {@code value} already exists in
+	 *                                the tree
 	 */
 	public void add(B value) {
 		// Call <add()> for an instantiated Node of value <value>
@@ -171,8 +173,10 @@ public class BSTree<B extends Comparable<B>> {
 			clear();
 
 		// 3. Add the left and right children of <toRemove> back to the tree
-		add(left, false);
-		add(right, false);
+		if (left != null)
+			add(left, false);
+		if (right != null)
+			add(right, false);
 
 		// 4. Decrement size
 		size--;
