@@ -87,6 +87,11 @@ public class BSTree<B extends Comparable<B>> {
 	 */
 	public static class EmptyTreeException extends RuntimeException {
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 7943725176282524852L;
+
 		public EmptyTreeException() {
 			new EmptyTreeException("");
 		}
@@ -98,9 +103,14 @@ public class BSTree<B extends Comparable<B>> {
 	}
 
 	/**
-	 * Thrown when trying to add a node of equal value to a pre-existing node
+	 * Thrown when trying to add a node to the tree which is of equal value to a pre-existing node
 	 */
 	public static class DuplicateNodeException extends RuntimeException {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -8739618794004297498L;
 
 		public DuplicateNodeException() {
 			new DuplicateNodeException("");
