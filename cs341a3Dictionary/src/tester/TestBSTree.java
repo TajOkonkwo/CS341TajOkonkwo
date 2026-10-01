@@ -19,15 +19,32 @@ import okonkwo.BSTree;
 class TestBSTree {
 
 	/**
-	 * Test the constructor
+	 * Test the default constructor
 	 */
 	@Test
-	void testBSTree() {
+	void testBSTreeDefault() {
 		// 1. Create a new BSTree of type Integer
 		BSTree<Integer> tree = new BSTree<>();
 		
 		// 2. Assert that it is empty
 		assertTrue(tree.isEmpty());
+	}
+	
+	/**
+	 * Test the explicit constructor
+	 */
+	void testBSTreeExplicit() {
+		// 1. Create a list of integers
+		ArrayList<Integer> list = new ArrayList<>();
+		for (int i = 0; i < 100; i++)
+			list.add((int) (Math.random() * 100));
+		
+		// 2. Create a new BSTree of type Integer with the list
+		BSTree<Integer> tree = new BSTree<Integer>(list);
+		
+		// 3. Assert that the tree contains all the values in the list
+		for (Integer i: list)
+			assertTrue(tree.contains(i));
 	}
 
 	/**

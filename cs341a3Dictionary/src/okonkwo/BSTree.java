@@ -1,6 +1,7 @@
 package okonkwo;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -24,7 +25,7 @@ public class BSTree<B extends Comparable<B>> {
 	 * A node of the tree containing a value, a parent node, and left and right
 	 * children
 	 * 
-	 * @param <B>
+	 * @param <B> - the type for the node
 	 */
 	private static class Node<B extends Comparable<B>> {
 
@@ -36,45 +37,84 @@ public class BSTree<B extends Comparable<B>> {
 
 		// Node - Constructors
 		// Default
+		/**
+		 * Default Constructor | Create a node of {@code null} value
+		 */
 		public Node() {
 			new Node<B>(null);
 		}
 
 		// Explicit
+		/**
+		 * Explicit Constructor | Create a node of specified value
+		 * @param value - the value of the new node
+		 */
 		public Node(B value) {
 			super();
 			this.value = value;
 		}
 
 		// Node - Getters and Setters
+		/**
+		 * Get the node's value
+		 * @return node value
+		 */
 		public B getValue() {
 			return value;
 		}
 
+		/**
+		 * Set the node's value
+		 * @param value - node value
+		 */
 		public void setValue(B value) {
 			this.value = value;
 		}
 
+		/**
+		 * Get the parent node
+		 * @return the parent node
+		 */
 		public Node<B> getParent() {
 			return parent;
 		}
 
+		/**
+		 * Reassign the parent node
+		 * @param parent - the new parent
+		 */
 		public void setParent(Node<B> parent) {
 			this.parent = parent;
 		}
 
+		/**
+		 * Get the left child node
+		 * @return the left child node
+		 */
 		public Node<B> getLeft() {
 			return left;
 		}
 
+		/**
+		 * Reassign the left child node
+		 * @param left - the new left child node
+		 */
 		public void setLeft(Node<B> left) {
 			this.left = left;
 		}
 
+		/**
+		 * Get the right child node
+		 * @return the right child node
+		 */
 		public Node<B> getRight() {
 			return right;
 		}
 
+		/**
+		 * Reassign the right child node
+		 * @param right - the new right child node
+		 */
 		public void setRight(Node<B> right) {
 			this.right = right;
 		}
@@ -92,10 +132,17 @@ public class BSTree<B extends Comparable<B>> {
 		 */
 		private static final long serialVersionUID = 7943725176282524852L;
 
+		/**
+		 * Default Constructor | Create an {@code EmptyTreeException} with blank message
+		 */
 		public EmptyTreeException() {
 			new EmptyTreeException("");
 		}
 
+		/**
+		 * Explicit Constructor | Create an {@code EmptyTreeException} with custom message
+		 * @param msg - the throw message
+		 */
 		public EmptyTreeException(String msg) {
 			super(msg);
 		}
@@ -112,10 +159,17 @@ public class BSTree<B extends Comparable<B>> {
 		 */
 		private static final long serialVersionUID = -8739618794004297498L;
 
+		/**
+		 * Default Constructor | Create a {@code DuplicateNodeException} with blank message
+		 */
 		public DuplicateNodeException() {
 			new DuplicateNodeException("");
 		}
 
+		/**
+		 * Explicit Constructor | Create a {@code DuplicateNodeException} with custom message
+		 * @param msg - the throw message
+		 */
 		public DuplicateNodeException(String msg) {
 			super(msg);
 		}
@@ -128,6 +182,15 @@ public class BSTree<B extends Comparable<B>> {
 	 */
 	public BSTree() {
 		root = null;
+	}
+	
+	/**
+	 * Explicit Constructor | Create a tree from an {@code ArrayList} of values
+	 * @param list - the list of values to add to the tree
+	 */
+	public BSTree(ArrayList<? extends B> list) {
+		for (B value: list)
+			add(value);
 	}
 
 	// New Methods
