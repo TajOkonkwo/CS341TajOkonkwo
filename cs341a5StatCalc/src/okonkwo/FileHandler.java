@@ -73,7 +73,12 @@ public class FileHandler {
 		// 3. Parse each element as a double and add to the return list
 		DoubleList list = new DoubleList();
 		for (String elem: split) {
-			list.add(Double.parseDouble(elem));
+			try {
+				list.add(Double.parseDouble(elem));
+			} catch (NumberFormatException e) {
+				// Ignore non-numeric lines
+				continue;
+			}
 		}
 		
 		// 4. Return the list
