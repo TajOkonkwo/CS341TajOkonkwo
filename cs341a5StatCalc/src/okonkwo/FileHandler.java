@@ -53,13 +53,18 @@ public class FileHandler {
 		// 1. Read the file
 		scanner = new Scanner(file);
 		
-		// 2. Build the text string with new lines separating lines
+		// 2. If the file is empty, return an empty string
+		if (!scanner.hasNextLine()) {
+			return "";
+		}
+		
+		// 3. Build the text string with new lines separating lines
 		String text = "";
 		while (scanner.hasNextLine()) {
 			text += scanner.nextLine() + "\n";
 		}
 		
-		// 3. Return text
+		// 4. Return text
 		return text.substring(0, text.length() - 1); // Removes last line break
 	}
 	

@@ -25,7 +25,7 @@ public class StatCalculator {
 	}
 	
 	/**
-	 * Find the standard deviation of a list of doubles
+	 * Find the standard deviation (population-based) of a list of doubles
 	 * <p>Formula from https://www.mathsisfun.com/data/standard-deviation-formulas.html</p>
 	 * @param list - the list of doubles
 	 * @return the standard deviation
@@ -37,7 +37,7 @@ public class StatCalculator {
 		// 2. Perform the sum part of the stdev formula
 		double stDevSum = 0;
 		for (Double d: list) {
-			stDevSum = Math.pow(d - mean, 2);
+			stDevSum += Math.pow(d - mean, 2);
 		}
 		
 		// 3. Plug values into formula

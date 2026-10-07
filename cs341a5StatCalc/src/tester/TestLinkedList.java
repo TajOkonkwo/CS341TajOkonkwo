@@ -119,6 +119,11 @@ class TestLinkedList {
 			assertEquals(index, value); // Check that the value matches the expected index
 			index++;
 		}
+		
+		// 3. Create an empty list and assert that the iterator has no elements
+		LinkedList<Integer> emptyList = new LinkedList<>();
+		Iterator<Integer> emptyIterator = emptyList.iterator();
+		assertFalse(emptyIterator.hasNext());
 	}
 
 	/**

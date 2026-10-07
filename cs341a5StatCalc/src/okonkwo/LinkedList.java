@@ -111,7 +111,7 @@ public class LinkedList<E> implements List<E> {
 
 		@Override
 		public boolean hasNext() {
-			return thisNode == null || thisNode.getNext() != null;
+			return (thisNode == null && list.head != null) || (thisNode != null && thisNode.getNext() != null);
 		}
 
 		@Override

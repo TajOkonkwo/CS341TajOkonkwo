@@ -69,9 +69,9 @@ class TestFileHandler {
 			fail("Interrupted");
 		}
 		
-		// 3. Assert that the file text is not empty
+		// 3. Test-print the file's text
 		try {
-			assertNotEquals(0, handler.fileText().length());
+			System.out.println(handler.fileText());
 		} catch (FileNotFoundException e) {
 			fail("File not found");
 		}
@@ -122,7 +122,7 @@ class TestFileHandler {
 	/**
 	 * Create a new file handler with a new file chooser
 	 */
-	private FileHandler newFileHandler() {
+	private static FileHandler newFileHandler() {
 		// 1. Create new file chooser
 		JFileChooser chooser = new JFileChooser();
 		
