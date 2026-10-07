@@ -7,6 +7,12 @@ import org.junit.jupiter.api.Test;
 import okonkwo.DoubleList;
 import okonkwo.StatCalculator;
 
+/**
+ * Test class for the {@code StatCalculator} class
+ * <p>Comments, documentation, and code generated in part by GitHub Copilot</p>
+ * @author Taj Okonkwo
+ * @version 1.0.1
+ */
 class TestStatCalculator {
 
 	/**
